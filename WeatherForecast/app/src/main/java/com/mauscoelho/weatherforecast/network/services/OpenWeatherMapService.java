@@ -5,23 +5,26 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.mauscoelho.weatherforecast.network.models.City;
+import com.mauscoelho.weatherforecast.network.parsers.OpenWeatherMapParser;
 import com.mauscoelho.weatherforecast.settings.App;
 import com.mauscoelho.weatherforecast.settings.CacheRequest;
 import com.mauscoelho.weatherforecast.settings.Endpoints;
 import com.mauscoelho.weatherforecast.network.interfaces.IAction;
 
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 
 public class OpenWeatherMapService {
 
-    @Inject
-    public OpenWeatherMapService() {
+    OpenWeatherMapParser openWeatherMapParser;
 
+    @Inject
+    public OpenWeatherMapService(OpenWeatherMapParser openWeatherMapParser) {
+        this.openWeatherMapParser = openWeatherMapParser;
     }
 
-    public void getForecastByCityName(final IAction<Boolean> callback, String cityName){
+    public void getForecastByCityName(final IAction<City> callback, String cityName){
 
         String url = String.format(Endpoints.FORECAST_BY_CITY_NAME, cityName);
 
@@ -30,13 +33,13 @@ public class OpenWeatherMapService {
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
-                        callback.OnCompleted(true);
+                        callback.OnCompleted(openWeatherMapParser.convertToCity(new String(response.data)));
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        callback.OnError(true);
+                        callback.OnError(null);
                     }
                 });
 

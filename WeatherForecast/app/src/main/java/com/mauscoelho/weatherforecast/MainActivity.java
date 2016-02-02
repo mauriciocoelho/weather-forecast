@@ -7,6 +7,7 @@ import android.view.View;
 import com.mauscoelho.weatherforecast.network.interfaces.DaggerIOpenWeatherMapComponent;
 import com.mauscoelho.weatherforecast.network.interfaces.IAction;
 import com.mauscoelho.weatherforecast.network.interfaces.IOpenWeatherMapComponent;
+import com.mauscoelho.weatherforecast.network.models.City;
 import com.mauscoelho.weatherforecast.network.services.OpenWeatherMapService;
 
 import javax.inject.Inject;
@@ -24,19 +25,18 @@ public class MainActivity extends AppCompatActivity {
         injectDependencies();
 
 
-
     }
 
-    public void teste(View v) {
-        openWeatherMapService.getForecastByCityName(new IAction<Boolean>() {
+    public void searchCity(View v) {
+        openWeatherMapService.getForecastByCityName(new IAction<City>() {
             @Override
-            public void OnCompleted(Boolean response) {
-                Boolean teste = response;
+            public void OnCompleted(City city) {
+                
             }
 
             @Override
-            public void OnError(Boolean response) {
-                Boolean teste = response;
+            public void OnError(City city) {
+
             }
         }, "Lages");
 
