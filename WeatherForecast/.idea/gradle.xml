@@ -9,17 +9,17 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/controllers" />
             <option value="$PROJECT_DIR$/models" />
+            <option value="$PROJECT_DIR$/view" />
           </set>
         </option>
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/controllers" />
             <option value="$PROJECT_DIR$/models" />
+            <option value="$PROJECT_DIR$/view" />
           </set>
         </option>
       </GradleProjectSettings>
