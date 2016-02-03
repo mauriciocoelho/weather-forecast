@@ -1,13 +1,19 @@
 package com.mauscoelho.weatherforecast;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.mauscoelho.controllers.interfaces.IAction;
 import com.mauscoelho.controllers.services.OpenWeatherMapService;
-import com.mauscoelho.data.City;
+import com.mauscoelho.data.CityForecast;
 
 import javax.inject.Inject;
 
@@ -19,8 +25,19 @@ import butterknife.OnClick;
 public class AddOrEditActivity extends AppCompatActivity {
 
 
+    @InjectView(R.id.toolbar_text)
+    EditText toolbar_text;
+    @InjectView(R.id.card_city)
+    LinearLayout card_city;
+    @InjectView(R.id.city_name)
+    TextView city_name;
+    @InjectView(R.id.city_country)
+    TextView city_country;
+    @InjectView(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
     @Inject
     OpenWeatherMapService openWeatherMapService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,23 +49,47 @@ public class AddOrEditActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.toolbar_back)
-    public void finishActivity(ImageView toolbar_back){
+    public void finishActivity(ImageView toolbar_back) {
         finish();
     }
 
-    public void searchCity(View v) {
-        openWeatherMapService.getForecastByCityName(new IAction<City>() {
-            @Override
-            public void OnCompleted(City city) {
+    @OnClick(R.id.toolbar_search)
+    public void searchCity(ImageView toolbar_search) {
+        String citySearch = toolbar_text.getText().toString();
+        if (!citySearch.isEmpty())
+            openWeatherMapService.getForecastByCityName(new IAction<CityForecast>() {
+                @Override
+                public void OnCompleted(CityForecast cityForecast) {
+                    resolveView(cityForecast);
+                }
 
-            }
+                @Override
+                public void OnError(CityForecast cityForecast) {
+                    unbindCity();
+                }
+            }, citySearch);
+    }
 
-            @Override
-            public void OnError(City city) {
+    @OnClick(R.id.card_city_item)
+    public void saveCity(LinearLayout card_city_item){
+        Snackbar.make(coordinatorLayout,R.string.saved, Snackbar.LENGTH_LONG).show();
+    }
 
-            }
-        }, "Lages");
+    private void resolveView(CityForecast cityForecast) {
+        if (cityForecast != null)
+            bindCity(cityForecast);
+        else
+            unbindCity();
+    }
 
+    private void unbindCity() {
+        card_city.setVisibility(View.GONE);
+    }
+
+    private void bindCity(CityForecast cityForecast) {
+        card_city.setVisibility(View.VISIBLE);
+        city_name.setText(cityForecast.city.name);
+        city_country.setText(cityForecast.city.country);
     }
 
     private void injectDependencies() {

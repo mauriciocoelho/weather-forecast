@@ -11,6 +11,7 @@ import com.mauscoelho.controllers.settings.App;
 import com.mauscoelho.controllers.settings.CacheRequest;
 import com.mauscoelho.controllers.settings.Endpoints;
 import com.mauscoelho.data.City;
+import com.mauscoelho.data.CityForecast;
 
 import javax.inject.Inject;
 
@@ -23,16 +24,14 @@ public class OpenWeatherMapService {
         this.openWeatherMapParser = openWeatherMapParser;
     }
 
-    public void getForecastByCityName(final IAction<City> callback, String cityName){
-
+    public void getForecastByCityName(final IAction<CityForecast> callback, String cityName){
         String url = String.format(Endpoints.FORECAST_BY_CITY_NAME, cityName);
-
         CacheRequest request = new CacheRequest(Request.Method.GET,
                 url,
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
-                        callback.OnCompleted(openWeatherMapParser.convertToCity(new String(response.data)));
+                        callback.OnCompleted(openWeatherMapParser.convertToCityForecast(new String(response.data)));
                     }
                 },
                 new Response.ErrorListener() {
