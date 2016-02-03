@@ -11,7 +11,9 @@ import dagger.Component;
 @Singleton
 @Component(modules = {OpenWeatherMapModule.class})
 public interface IOpenWeatherMapComponent {
-    void inject(MainActivity mainActivity);
+
+    void injectMainActivity(MainActivity mainActivity);
+    void injectAddOrEditActivity(AddOrEditActivity addOrEditActivity);
 
     OpenWeatherMapService provideOpenWeatherMapService();
 

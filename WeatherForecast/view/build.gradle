@@ -27,6 +27,7 @@ dependencies {
     compile 'com.google.dagger:dagger:2.0.1'
     apt "com.google.dagger:dagger-compiler:2.0.1"
     compile 'javax.annotation:jsr250-api:1.0'
+    compile 'com.jakewharton:butterknife:6.1.0'
     compile project(path: ':models')
     compile project(path: ':controllers')
 }

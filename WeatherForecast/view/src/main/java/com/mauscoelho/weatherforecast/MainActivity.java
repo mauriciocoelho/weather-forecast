@@ -1,46 +1,35 @@
 package com.mauscoelho.weatherforecast;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import com.mauscoelho.controllers.interfaces.IAction;
-import com.mauscoelho.controllers.services.OpenWeatherMapService;
-import com.mauscoelho.data.City;
+import android.widget.ImageView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-
-import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Inject
-    OpenWeatherMapService openWeatherMapService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         injectDependencies();
-
-
+        injectView();
     }
 
-    public void searchCity(View v) {
-        openWeatherMapService.getForecastByCityName(new IAction<City>() {
-            @Override
-            public void OnCompleted(City city) {
-                
-            }
+    @OnClick(R.id.toolbar_add)
+    public void startAddOrEditActivity(ImageView toolbar_add){
+        startActivity(new Intent(this, AddOrEditActivity.class));
+    }
 
-            @Override
-            public void OnError(City city) {
-
-            }
-        }, "Lages");
-
+    private void injectView() {
+        ButterKnife.inject(this);
     }
 
     private void injectDependencies() {
         IOpenWeatherMapComponent openWeatherMapComponent = DaggerIOpenWeatherMapComponent.create();
-        openWeatherMapComponent.inject(this);
+        openWeatherMapComponent.injectMainActivity(this);
     }
 }
