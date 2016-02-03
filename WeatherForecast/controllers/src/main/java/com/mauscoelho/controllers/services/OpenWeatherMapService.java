@@ -13,6 +13,8 @@ import com.mauscoelho.controllers.settings.Endpoints;
 import com.mauscoelho.data.City;
 import com.mauscoelho.data.CityForecast;
 
+import java.net.URLEncoder;
+
 import javax.inject.Inject;
 
 public class OpenWeatherMapService {
@@ -25,6 +27,7 @@ public class OpenWeatherMapService {
     }
 
     public void getForecastByCityName(final IAction<CityForecast> callback, String cityName){
+        cityName = URLEncoder.encode(cityName);
         String url = String.format(Endpoints.FORECAST_BY_CITY_NAME, cityName);
         CacheRequest request = new CacheRequest(Request.Method.GET,
                 url,

@@ -4,6 +4,6 @@
     <string name="loading">LOADING</string>
     <string name="name">NAME:</string>
     <string name="country">COUNTRY:</string>
-    <string name="instructions_add_or_remove">Tap the item to add</string>
+    <string name="instructions_to_add">Tap to add</string>
     <string name="saved">Saved!</string>
 </resources>

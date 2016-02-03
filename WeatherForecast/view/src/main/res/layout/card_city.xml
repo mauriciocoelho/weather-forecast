@@ -122,7 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="@string/instructions_add_or_remove"
+            android:text="@string/instructions_to_add"
             />
 
     </RelativeLayout>

@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mauscoelho.controllers.interfaces.IAction;
+import com.mauscoelho.controllers.services.InternalStorageService;
 import com.mauscoelho.controllers.services.OpenWeatherMapService;
 import com.mauscoelho.data.CityForecast;
 
@@ -37,6 +38,9 @@ public class AddOrEditActivity extends AppCompatActivity {
     CoordinatorLayout coordinatorLayout;
     @Inject
     OpenWeatherMapService openWeatherMapService;
+    @Inject
+    InternalStorageService internalStorageService;
+    private CityForecast cityForecast;
 
 
     @Override
@@ -72,12 +76,15 @@ public class AddOrEditActivity extends AppCompatActivity {
 
     @OnClick(R.id.card_city_item)
     public void saveCity(LinearLayout card_city_item){
+        internalStorageService.saveCity(cityForecast);
         Snackbar.make(coordinatorLayout,R.string.saved, Snackbar.LENGTH_LONG).show();
     }
 
     private void resolveView(CityForecast cityForecast) {
-        if (cityForecast != null)
+        if (cityForecast != null) {
+            this.cityForecast = cityForecast;
             bindCity(cityForecast);
+        }
         else
             unbindCity();
     }
