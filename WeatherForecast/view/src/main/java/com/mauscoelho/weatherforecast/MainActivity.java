@@ -8,9 +8,7 @@ import android.widget.ImageView;
 
 import com.mauscoelho.controllers.services.InternalStorageService;
 import com.mauscoelho.data.CityForecast;
-
 import javax.inject.Inject;
-
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -27,12 +25,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         injectDependencies();
         injectView();
+        buildForecasts();
     }
 
-    @OnClick(R.id.teste)
-    public void teste(Button teste){
+    private void buildForecasts() {
         CityForecast[] cityForecasts = internalStorageService.getCities();
     }
+
 
     @OnClick(R.id.toolbar_add)
     public void startAddOrEditActivity(ImageView toolbar_add){
