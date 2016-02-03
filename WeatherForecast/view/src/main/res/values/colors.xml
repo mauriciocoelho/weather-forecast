@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="ripple">#66e7f6cf</color>
+    <color name="indigo_400">#5C6BC0</color>
+    <color name="indigo_300">#7986CB</color>
+
 </resources>
