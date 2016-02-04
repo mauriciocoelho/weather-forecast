@@ -1,7 +1,9 @@
 package com.mauscoelho.weatherforecast;
 
 
+import com.mauscoelho.controllers.controllers.OpenWeatherMapController;
 import com.mauscoelho.controllers.modules.OpenWeatherMapModule;
+import com.mauscoelho.controllers.parsers.OpenWeatherMapParser;
 import com.mauscoelho.controllers.services.OpenWeatherMapService;
 
 import javax.inject.Singleton;
@@ -16,5 +18,9 @@ public interface IOpenWeatherMapComponent {
     void injectAddOrEditActivity(AddOrEditActivity addOrEditActivity);
 
     OpenWeatherMapService provideOpenWeatherMapService();
+
+    OpenWeatherMapParser provideOpenWeatherMapParser();
+
+    OpenWeatherMapController provideOpenWeatherMapController();
 
 }

@@ -4,10 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Button;
 import android.widget.ImageView;
 
-import com.mauscoelho.controllers.services.InternalStorageService;
+import com.mauscoelho.controllers.controllers.OpenWeatherMapController;
 import com.mauscoelho.data.CityForecast;
 import com.mauscoelho.weatherforecast.adapters.MainAdapter;
 
@@ -23,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     @InjectView(R.id.rv_forecast)
     RecyclerView rv_forecast;
     @Inject
-    InternalStorageService internalStorageService;
+    OpenWeatherMapController openWeatherMapController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,18 +33,22 @@ public class MainActivity extends AppCompatActivity {
         buildForecasts();
     }
 
-    private void buildForecasts() {
-        CityForecast[] cityForecasts = internalStorageService.getCities();
-        if(cityForecasts != null){
-            MainAdapter mainAdapter = new MainAdapter(cityForecasts);
-            rv_forecast.setAdapter(mainAdapter);
-        }
-    }
-
-
     @OnClick(R.id.toolbar_add)
     public void startAddOrEditActivity(ImageView toolbar_add){
         startActivity(new Intent(this, AddOrEditActivity.class));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        buildForecasts();
+    }
+
+    private void buildForecasts() {
+        CityForecast[] cityForecasts = openWeatherMapController.getCities();
+        if(cityForecasts != null){
+            rv_forecast.setAdapter(new MainAdapter(cityForecasts));
+        }
     }
 
     private void injectView() {

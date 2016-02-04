@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mauscoelho.controllers.controllers.OpenWeatherMapController;
 import com.mauscoelho.controllers.interfaces.IAction;
-import com.mauscoelho.controllers.services.InternalStorageService;
 import com.mauscoelho.controllers.services.OpenWeatherMapService;
 import com.mauscoelho.data.CityForecast;
 
@@ -25,7 +25,7 @@ import butterknife.OnClick;
 
 public class AddOrEditActivity extends AppCompatActivity {
 
-
+    private CityForecast cityForecast;
     @InjectView(R.id.toolbar_text)
     EditText toolbar_text;
     @InjectView(R.id.card_city)
@@ -37,11 +37,7 @@ public class AddOrEditActivity extends AppCompatActivity {
     @InjectView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     @Inject
-    OpenWeatherMapService openWeatherMapService;
-    @Inject
-    InternalStorageService internalStorageService;
-    private CityForecast cityForecast;
-
+    OpenWeatherMapController openWeatherMapController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +54,20 @@ public class AddOrEditActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.toolbar_search)
-    public void searchCity(ImageView toolbar_search) {
+    public void onClickSearch(ImageView toolbar_search) {
+        searchCity();
+    }
+
+    @OnClick(R.id.card_city_item)
+    public void saveCity(LinearLayout card_city_item){
+        openWeatherMapController.saveCity(cityForecast);
+        Snackbar.make(coordinatorLayout,R.string.saved, Snackbar.LENGTH_LONG).show();
+    }
+
+    public void searchCity() {
         String citySearch = toolbar_text.getText().toString();
         if (!citySearch.isEmpty())
-            openWeatherMapService.getForecastByCityName(new IAction<CityForecast>() {
+            openWeatherMapController.getForecastByCityName(new IAction<CityForecast>() {
                 @Override
                 public void OnCompleted(CityForecast cityForecast) {
                     resolveView(cityForecast);
@@ -72,12 +78,6 @@ public class AddOrEditActivity extends AppCompatActivity {
                     unbindCity();
                 }
             }, citySearch);
-    }
-
-    @OnClick(R.id.card_city_item)
-    public void saveCity(LinearLayout card_city_item){
-        internalStorageService.saveCity(cityForecast);
-        Snackbar.make(coordinatorLayout,R.string.saved, Snackbar.LENGTH_LONG).show();
     }
 
     private void resolveView(CityForecast cityForecast) {
