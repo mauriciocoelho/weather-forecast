@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mauscoelho.controllers.controllers.OpenWeatherMapController;
@@ -37,6 +38,8 @@ public class AddActivity extends AppCompatActivity {
     TextView city_country;
     @InjectView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
+    @InjectView(R.id.loader)
+    ProgressBar loader;
     @Inject
     OpenWeatherMapController openWeatherMapController;
 
@@ -66,6 +69,7 @@ public class AddActivity extends AppCompatActivity {
     }
 
     public void searchCity() {
+        loader.setVisibility(View.VISIBLE);
         String citySearch = toolbar_text.getText().toString();
         if (!citySearch.isEmpty())
             openWeatherMapController.getForecastByCityName(new IAction<CityForecast>() {
@@ -95,6 +99,7 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private void bindCity(CityForecast cityForecast) {
+        loader.setVisibility(View.GONE);
         card_city.setVisibility(View.VISIBLE);
         city_name.setText(cityForecast.city.name);
         city_country.setText(cityForecast.city.country);

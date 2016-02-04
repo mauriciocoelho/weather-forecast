@@ -6,6 +6,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.mauscoelho.controllers.settings.App;
 import com.mauscoelho.data.CityForecast;
+import com.mauscoelho.data.Forecast;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -63,6 +65,15 @@ public class InternalStorageService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public CityForecast getCity(String name){
+        CityForecast[] cityForecasts = getCities();
+        for (CityForecast cityForecast: cityForecasts) {
+            if(cityForecast.city.name.contains(name))
+                return cityForecast;
+        }
+        return null;
     }
 
     public CityForecast[] getCities() {

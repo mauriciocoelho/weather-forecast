@@ -45,8 +45,7 @@ public class OpenWeatherMapController {
     }
 
     public CityForecast getCity(String name){
-        
-        return null;
+        return internalStorageService.getCity(name);
     }
 
     private void updateData(final CityForecast[] cityForecasts) {
