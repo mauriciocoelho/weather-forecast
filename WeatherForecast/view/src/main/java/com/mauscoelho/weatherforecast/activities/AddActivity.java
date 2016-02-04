@@ -1,6 +1,5 @@
-package com.mauscoelho.weatherforecast;
+package com.mauscoelho.weatherforecast.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -13,8 +12,10 @@ import android.widget.TextView;
 
 import com.mauscoelho.controllers.controllers.OpenWeatherMapController;
 import com.mauscoelho.controllers.interfaces.IAction;
-import com.mauscoelho.controllers.services.OpenWeatherMapService;
 import com.mauscoelho.data.CityForecast;
+import com.mauscoelho.weatherforecast.DaggerIOpenWeatherMapComponent;
+import com.mauscoelho.weatherforecast.IOpenWeatherMapComponent;
+import com.mauscoelho.weatherforecast.R;
 
 import javax.inject.Inject;
 
@@ -23,7 +24,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 
-public class AddOrEditActivity extends AppCompatActivity {
+public class AddActivity extends AppCompatActivity {
 
     private CityForecast cityForecast;
     @InjectView(R.id.toolbar_text)
@@ -75,7 +76,7 @@ public class AddOrEditActivity extends AppCompatActivity {
 
                 @Override
                 public void OnError(CityForecast cityForecast) {
-                    unbindCity();
+
                 }
             }, citySearch);
     }
@@ -101,7 +102,7 @@ public class AddOrEditActivity extends AppCompatActivity {
 
     private void injectDependencies() {
         IOpenWeatherMapComponent openWeatherMapComponent = DaggerIOpenWeatherMapComponent.create();
-        openWeatherMapComponent.injectAddOrEditActivity(this);
+        openWeatherMapComponent.injectAddActivity(this);
     }
 
     private void injectView() {

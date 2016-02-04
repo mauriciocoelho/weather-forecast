@@ -1,7 +1,5 @@
 package com.mauscoelho.controllers.controllers;
 
-
-
 import com.mauscoelho.controllers.interfaces.IAction;
 import com.mauscoelho.controllers.services.InternalStorageService;
 import com.mauscoelho.controllers.services.OpenWeatherMapService;
@@ -21,7 +19,7 @@ public class OpenWeatherMapController {
     }
 
     public void saveCity(CityForecast cityForecast){
-        internalStorageService.saveCity(cityForecast);
+        internalStorageService.saveCityForecast(cityForecast);
     }
 
     public void getForecastByCityName(final IAction<CityForecast> callback, String cityName){
@@ -40,8 +38,35 @@ public class OpenWeatherMapController {
 
     public CityForecast[] getCities() {
         CityForecast[] cityForecasts = internalStorageService.getCities();
+        if(cityForecasts.length > 0)
+            updateData(cityForecasts);
+
         return cityForecasts;
     }
 
+    private void updateData(final CityForecast[] cityForecasts) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < cityForecasts.length; i++) {
+                    searchData(cityForecasts[i], i);
+                }
+
+            }
+        }).start();
+    }
+
+    private void searchData(CityForecast cityForecast, final int position) {
+        openWeatherMapService.getForecastByCityName(new IAction<CityForecast>() {
+            @Override
+            public void OnCompleted(CityForecast response) {
+                internalStorageService.updateCityForecast(response, position);
+            }
+            @Override
+            public void OnError(CityForecast response) {
+
+            }
+        }, cityForecast.city.name);
+    }
 
 }

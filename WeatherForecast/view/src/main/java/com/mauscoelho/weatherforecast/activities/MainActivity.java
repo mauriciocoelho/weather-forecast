@@ -1,4 +1,4 @@
-package com.mauscoelho.weatherforecast;
+package com.mauscoelho.weatherforecast.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,9 @@ import android.widget.ImageView;
 
 import com.mauscoelho.controllers.controllers.OpenWeatherMapController;
 import com.mauscoelho.data.CityForecast;
+import com.mauscoelho.weatherforecast.DaggerIOpenWeatherMapComponent;
+import com.mauscoelho.weatherforecast.IOpenWeatherMapComponent;
+import com.mauscoelho.weatherforecast.R;
 import com.mauscoelho.weatherforecast.adapters.MainAdapter;
 
 import javax.inject.Inject;
@@ -35,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.toolbar_add)
     public void startAddOrEditActivity(ImageView toolbar_add){
-        startActivity(new Intent(this, AddOrEditActivity.class));
+        startActivity(new Intent(this, AddActivity.class));
     }
 
     @Override

@@ -2,9 +2,11 @@ package com.mauscoelho.controllers.services;
 
 
 import android.content.Context;
+
 import com.google.gson.Gson;
 import com.mauscoelho.controllers.settings.App;
 import com.mauscoelho.data.CityForecast;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -26,12 +28,12 @@ public class InternalStorageService {
         this.gson = gson;
     }
 
-    public void saveCity(CityForecast cityForecast){
-        if(cityForecast != null){
+    public void saveCityForecast(CityForecast cityForecast) {
+        if (cityForecast != null) {
             List<CityForecast> citiesForecasts = new ArrayList<>();
             checksWhetherCities(citiesForecasts, cityForecast);
             CityForecast[] cityArray = buildArray(citiesForecasts);
-            saveCities(cityArray);
+            saveCitiesForecast(cityArray);
         }
     }
 
@@ -42,20 +44,20 @@ public class InternalStorageService {
     }
 
     private void checksWhetherCities(List<CityForecast> citiesForecasts, CityForecast cityForecast) {
-        if(containsCities()){
+        if (containsCities()) {
             CityForecast[] savedCities = getCities();
-            for (CityForecast item: savedCities){
+            for (CityForecast item : savedCities) {
                 citiesForecasts.add(item);
             }
         }
         citiesForecasts.add(cityForecast);
     }
 
-    public void saveCities(CityForecast[] citiesForecast){
+    public void saveCitiesForecast(CityForecast[] citiesForecast) {
         try {
             String data = gson.toJson(citiesForecast);
             FileOutputStream fileout = App.getsInstance().openFileOutput(CITIES_KEY, Context.MODE_PRIVATE);
-            OutputStreamWriter outputWriter=new OutputStreamWriter(fileout);
+            OutputStreamWriter outputWriter = new OutputStreamWriter(fileout);
             outputWriter.write(data);
             outputWriter.close();
         } catch (Exception e) {
@@ -67,16 +69,16 @@ public class InternalStorageService {
         CityForecast[] citiesForecast = null;
         String result = "";
         try {
-            FileInputStream fileIn= App.getsInstance().openFileInput(CITIES_KEY);
+            FileInputStream fileIn = App.getsInstance().openFileInput(CITIES_KEY);
             InputStreamReader InputRead = new InputStreamReader(fileIn);
-            char[] inputBuffer= new char[READ_BLOCK_SIZE];
+            char[] inputBuffer = new char[READ_BLOCK_SIZE];
             int charRead;
-            while ((charRead=InputRead.read(inputBuffer))>0) {
-                String readstring=String.copyValueOf(inputBuffer,0,charRead);
-                result +=readstring;
+            while ((charRead = InputRead.read(inputBuffer)) > 0) {
+                String readstring = String.copyValueOf(inputBuffer, 0, charRead);
+                result += readstring;
             }
             InputRead.close();
-            if(result != ""){
+            if (result != "") {
                 citiesForecast = gson.fromJson(result, CityForecast[].class);
                 return citiesForecast;
             }
@@ -87,10 +89,10 @@ public class InternalStorageService {
         return citiesForecast;
     }
 
-    public Boolean containsCities(){
+    public Boolean containsCities() {
         try {
-            FileInputStream fileIn= App.getsInstance().openFileInput(CITIES_KEY);
-            if(fileIn != null)
+            FileInputStream fileIn = App.getsInstance().openFileInput(CITIES_KEY);
+            if (fileIn != null)
                 return true;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -99,5 +101,9 @@ public class InternalStorageService {
     }
 
 
-
+    public void updateCityForecast(CityForecast newCityForecast, int position) {
+        CityForecast[] citiesForecast = getCities();
+        citiesForecast[position] = newCityForecast;
+        saveCitiesForecast(citiesForecast);
+    }
 }
