@@ -53,7 +53,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private void bindMatchItem(MainViewHolder viewHolder, final CityForecast forecast) {
         viewHolder.forecast_city_name.setText(forecast.city.name);
-        viewHolder.forecast_weather_value.setText(String.valueOf(forecast.forecasts[0].main.temp));
+        viewHolder.forecast_weather_value.setText(String.valueOf(Math.round(forecast.forecasts[0].main.temp)));
         viewHolder.forecast_weather_description.setText(forecast.forecasts[0].weather[0].description);
     }
 
