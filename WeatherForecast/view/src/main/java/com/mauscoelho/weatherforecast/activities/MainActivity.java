@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private void buildForecasts() {
         CityForecast[] cityForecasts = openWeatherMapController.getCities();
         if(cityForecasts != null){
-            rv_forecast.setAdapter(new MainAdapter(cityForecasts));
+            rv_forecast.setAdapter(new MainAdapter(cityForecasts, this));
         }
     }
 

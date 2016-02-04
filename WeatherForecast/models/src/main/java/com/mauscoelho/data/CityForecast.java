@@ -1,7 +1,9 @@
 package com.mauscoelho.data;
 
 
-public class CityForecast {
+import java.io.Serializable;
+
+public class CityForecast implements Serializable {
     public City city;
     public Forecast[] forecasts;
 }

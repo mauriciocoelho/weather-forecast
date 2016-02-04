@@ -1,7 +1,9 @@
 package com.mauscoelho.data;
 
 
-public class Main {
+import java.io.Serializable;
+
+public class Main implements Serializable {
     public int humidity;
     public float pressure;
     public float temp_max;

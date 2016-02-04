@@ -1,7 +1,9 @@
 package com.mauscoelho.data;
 
 
-public class Forecast{
+import java.io.Serializable;
+
+public class Forecast implements Serializable {
     public long dt;
     public Main main;
     public Weather[] weather;

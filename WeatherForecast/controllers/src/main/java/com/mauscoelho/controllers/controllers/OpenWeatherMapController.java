@@ -38,10 +38,15 @@ public class OpenWeatherMapController {
 
     public CityForecast[] getCities() {
         CityForecast[] cityForecasts = internalStorageService.getCities();
-        if(cityForecasts.length > 0)
+        if(cityForecasts != null)
             updateData(cityForecasts);
 
         return cityForecasts;
+    }
+
+    public CityForecast getCity(String name){
+        
+        return null;
     }
 
     private void updateData(final CityForecast[] cityForecasts) {
