@@ -1,4 +1,4 @@
-package com.mauscoelho.weatherforecast;
+package com.mauscoelho.weatherforecast.interfaces;
 
 
 import com.mauscoelho.controllers.controllers.OpenWeatherMapController;

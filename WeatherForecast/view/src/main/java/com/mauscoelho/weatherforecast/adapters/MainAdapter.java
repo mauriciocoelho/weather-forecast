@@ -1,10 +1,7 @@
 package com.mauscoelho.weatherforecast.adapters;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +10,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mauscoelho.controllers.settings.App;
 import com.mauscoelho.controllers.settings.Extras;
 import com.mauscoelho.data.CityForecast;
 import com.mauscoelho.weatherforecast.R;
+import com.mauscoelho.weatherforecast.utils.UIUtils;
 import com.mauscoelho.weatherforecast.activities.ForecastDetailActivity;
 
 import butterknife.ButterKnife;
@@ -24,9 +21,6 @@ import butterknife.InjectView;
 
 public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public static final String TYPE_RAIN = "Rain";
-    public static final String TYPE_CLOUDS = "Clouds";
-    public static final String TYPE_CLEAR = "Clear";
     private CityForecast[] forecasts;
     private Activity activity;
 
@@ -61,7 +55,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         View view = LayoutInflater.
                 from(viewGroup.getContext()).
                 inflate(R.layout.card_forecast, viewGroup, false);
-        return new MainViewHolder(view, this);
+        return new MainViewHolder(view);
     }
 
 
@@ -69,7 +63,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         viewHolder.forecast_city_name.setText(forecast.city.name);
         viewHolder.forecast_weather_value.setText(String.valueOf(Math.round(forecast.forecasts[0].main.temp)));
         viewHolder.forecast_weather_description.setText(forecast.forecasts[0].weather[0].description);
-        viewHolder.forecast_weather_image.setImageDrawable(getImageType(forecast.forecasts[0].weather[0].main));
+        viewHolder.forecast_weather_image.setImageDrawable(UIUtils.getImageTypeGrey(forecast.forecasts[0].weather[0].main));
         viewHolder.card_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,21 +75,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private Drawable getImageType(String type) {
 
-        switch (type){
-            case TYPE_RAIN:
-                return App.getsInstance().getDrawable(R.mipmap.ic_weather_rain);
-            case TYPE_CLOUDS:
-                return App.getsInstance().getDrawable(R.mipmap.ic_weather_cloudy);
-            case TYPE_CLEAR:
-                return App.getsInstance().getDrawable(R.mipmap.ic_weather_sunny);
-
-        }
-
-        return App.getsInstance().getDrawable(R.mipmap.ic_weather_sunny);
-    }
 
 
     public static class MainViewHolder extends RecyclerView.ViewHolder{
@@ -111,7 +91,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @InjectView(R.id.card_content)
         RelativeLayout card_content;
 
-        public MainViewHolder(View v, MainAdapter mainAdapter) {
+        public MainViewHolder(View v) {
             super(v);
             ButterKnife.inject(this, v);
         }

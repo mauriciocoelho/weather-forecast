@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="90dp"
+    android:layout_height="140dp"
+    card_view:cardBackgroundColor="@color/indigo_400">
+
+
+    <RelativeLayout
+        android:id="@+id/card_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="18dp"
+        android:paddingBottom="18dp"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/forecast_weather_day"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:text="Sun"
+            android:textColor="@android:color/white"
+            android:textSize="16dp"
+            />
+
+
+        <RelativeLayout
+            android:layout_below="@+id/forecast_weather_day"
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:id="@+id/forecast_weather_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:text="18"
+                android:textSize="16dp"
+                />
+
+            <TextView
+                android:id="@+id/forecast_weather_metric"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:gravity="top"
+                android:layout_toRightOf="@+id/forecast_weather_value"
+                android:text="o"
+                android:textSize="8dp"
+                />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/forecast_weather_description"
+            android:layout_below="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:text="Chuva"
+            android:textSize="16dp"
+            android:paddingBottom="4dp"
+            />
+
+        <ImageView
+            android:id="@+id/forecast_weather_image"
+            android:layout_below="@+id/forecast_weather_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_weather_rain_white"
+            />
+
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

@@ -12,8 +12,8 @@ import android.widget.ProgressBar;
 
 import com.mauscoelho.controllers.controllers.OpenWeatherMapController;
 import com.mauscoelho.data.CityForecast;
-import com.mauscoelho.weatherforecast.DaggerIOpenWeatherMapComponent;
-import com.mauscoelho.weatherforecast.IOpenWeatherMapComponent;
+import com.mauscoelho.weatherforecast.interfaces.DaggerIOpenWeatherMapComponent;
+import com.mauscoelho.weatherforecast.interfaces.IOpenWeatherMapComponent;
 import com.mauscoelho.weatherforecast.R;
 import com.mauscoelho.weatherforecast.adapters.MainAdapter;
 
