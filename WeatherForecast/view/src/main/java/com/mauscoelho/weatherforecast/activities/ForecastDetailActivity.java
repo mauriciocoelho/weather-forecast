@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -91,23 +92,22 @@ public class ForecastDetailActivity extends AppCompatActivity {
 
         Forecast[] forecasts =  UIUtils.distinctByDate(cityForecast.forecasts);
         for (Forecast forecast: forecasts) {
-
-            LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View forecastItemView = inflater.inflate(R.layout.card_forecast_item, null);
-
-            TextView forecast_weather_day = (TextView)forecastItemView.findViewById(R.id.forecast_weather_day);
-            TextView forecast_weather_value = (TextView)forecastItemView.findViewById(R.id.forecast_weather_value);
-            ImageView forecast_weather_image = (ImageView) forecastItemView.findViewById(R.id.forecast_weather_image);
-
-            forecast_weather_day.setText(DateHelper.getAbbrDay(forecast.dt));
-            forecast_weather_value.setText(String.valueOf(Math.round(forecast.main.temp)));
-            forecast_weather_image.setImageDrawable(UIUtils.getImageTypeWhite(forecast.weather[0].main, activity));
-
+            View forecastItemView = bindItemList(forecast);
             forecast_list.addView(forecastItemView);
         }
-
     }
 
+    private View bindItemList(Forecast forecast) {
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View forecastItemView = inflater.inflate(R.layout.card_forecast_item, null);
+        TextView forecast_weather_day = (TextView)forecastItemView.findViewById(R.id.forecast_weather_day);
+        TextView forecast_weather_value = (TextView)forecastItemView.findViewById(R.id.forecast_weather_value);
+        ImageView forecast_weather_image = (ImageView) forecastItemView.findViewById(R.id.forecast_weather_image);
+        forecast_weather_day.setText(DateHelper.getAbbrDay(forecast.dt));
+        forecast_weather_value.setText(String.valueOf(Math.round(forecast.main.temp)));
+        forecast_weather_image.setImageDrawable(UIUtils.getImageTypeWhite(forecast.weather[0].main, activity));
+        return forecastItemView;
+    }
 
     @OnClick(R.id.toolbar_back)
     public void finishActivity(ImageView toolbar_back) {
