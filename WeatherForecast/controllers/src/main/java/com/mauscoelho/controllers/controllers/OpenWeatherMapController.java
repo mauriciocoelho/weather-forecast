@@ -48,7 +48,7 @@ public class OpenWeatherMapController {
         return internalStorageService.getCity(name);
     }
 
-    private void updateData(final CityForecast[] cityForecasts) {
+    public void updateData(final CityForecast[] cityForecasts) {
         new Thread(new Runnable() {
             @Override
             public void run() {
