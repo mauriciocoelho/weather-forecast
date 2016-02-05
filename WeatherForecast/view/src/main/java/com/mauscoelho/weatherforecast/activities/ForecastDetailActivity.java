@@ -1,6 +1,7 @@
 package com.mauscoelho.weatherforecast.activities;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,6 +48,7 @@ public class ForecastDetailActivity extends AppCompatActivity {
     LinearLayout forecast_list;
     @Inject
     OpenWeatherMapController openWeatherMapController;
+    private Activity activity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +87,7 @@ public class ForecastDetailActivity extends AppCompatActivity {
         forecast_city_name.setText(cityForecast.city.name);
         forecast_weather_value.setText(String.valueOf(Math.round(cityForecast.forecasts[0].main.temp)));
         forecast_weather_description.setText(cityForecast.forecasts[0].weather[0].description);
-        forecast_weather_image.setImageDrawable(UIUtils.getImageTypeGrey(cityForecast.forecasts[0].weather[0].main));
+        forecast_weather_image.setImageDrawable(UIUtils.getImageTypeGrey(cityForecast.forecasts[0].weather[0].main, activity));
 
         Forecast[] forecasts =  UIUtils.distinctByDate(cityForecast.forecasts);
         for (Forecast forecast: forecasts) {
@@ -99,7 +101,7 @@ public class ForecastDetailActivity extends AppCompatActivity {
 
             forecast_weather_day.setText(DateHelper.getAbbrDay(forecast.dt));
             forecast_weather_value.setText(String.valueOf(Math.round(forecast.main.temp)));
-            forecast_weather_image.setImageDrawable(UIUtils.getImageTypeWhite(forecast.weather[0].main));
+            forecast_weather_image.setImageDrawable(UIUtils.getImageTypeWhite(forecast.weather[0].main, activity));
 
             forecast_list.addView(forecastItemView);
         }

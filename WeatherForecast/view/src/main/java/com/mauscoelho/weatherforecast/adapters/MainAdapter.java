@@ -63,7 +63,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         viewHolder.forecast_city_name.setText(forecast.city.name);
         viewHolder.forecast_weather_value.setText(String.valueOf(Math.round(forecast.forecasts[0].main.temp)));
         viewHolder.forecast_weather_description.setText(forecast.forecasts[0].weather[0].description);
-        viewHolder.forecast_weather_image.setImageDrawable(UIUtils.getImageTypeGrey(forecast.forecasts[0].weather[0].main));
+        viewHolder.forecast_weather_image.setImageDrawable(UIUtils.getImageTypeGrey(forecast.forecasts[0].weather[0].main, activity));
         viewHolder.card_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
