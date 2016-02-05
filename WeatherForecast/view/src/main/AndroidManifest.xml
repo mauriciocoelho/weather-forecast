@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.AddActivity"/>
+        <activity android:name=".activities.AddActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".activities.ForecastDetailActivity"/>
 
     </application>
