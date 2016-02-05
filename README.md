@@ -13,9 +13,9 @@ weather forecast with request cache
 ### Arquitetura MVC
 O padrão MVC é essencialmente o seguinte:
 
-Modelo: O que é para exibir
-View: Como ele é exibido
-Controller: a formatação do modelo para visualização
+- Modelo: O que é para exibir
+- View: Como ele é exibido
+- Controller: a formatação do modelo para visualização
 
 
 ### Apk
