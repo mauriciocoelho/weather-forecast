@@ -1,7 +1,7 @@
 package com.mauscoelho.data;
 
 
-public class Weather {
+public class Weather  {
     public int id;
     public String icon;
     public String description;

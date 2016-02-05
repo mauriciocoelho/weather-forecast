@@ -1,6 +1,8 @@
 package com.mauscoelho.data;
 
-public class City {
+import java.io.Serializable;
+
+public class City implements Serializable {
     public long id;
     public String name;
     public Coord coord;
