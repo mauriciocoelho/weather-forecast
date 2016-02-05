@@ -1,12 +1,15 @@
 package com.mauscoelho.weatherforecast.activities;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -14,21 +17,11 @@ import com.mauscoelho.controllers.controllers.OpenWeatherMapController;
 import com.mauscoelho.controllers.settings.Extras;
 import com.mauscoelho.data.CityForecast;
 import com.mauscoelho.data.Forecast;
-import com.mauscoelho.weatherforecast.adapters.ForecastsAdapter;
 import com.mauscoelho.weatherforecast.interfaces.DaggerIOpenWeatherMapComponent;
 import com.mauscoelho.weatherforecast.interfaces.IOpenWeatherMapComponent;
 import com.mauscoelho.weatherforecast.R;
 import com.mauscoelho.weatherforecast.utils.DateHelper;
 import com.mauscoelho.weatherforecast.utils.UIUtils;
-
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.text.Format;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -50,8 +43,8 @@ public class ForecastDetailActivity extends AppCompatActivity {
     TextView forecast_weather_description;
     @InjectView(R.id.forecast_weather_image)
     ImageView forecast_weather_image;
-    @InjectView(R.id.rv_forecast)
-    RecyclerView rv_forecast;
+    @InjectView(R.id.forecast_list)
+    LinearLayout forecast_list;
     @Inject
     OpenWeatherMapController openWeatherMapController;
 
@@ -93,8 +86,24 @@ public class ForecastDetailActivity extends AppCompatActivity {
         forecast_weather_value.setText(String.valueOf(Math.round(cityForecast.forecasts[0].main.temp)));
         forecast_weather_description.setText(cityForecast.forecasts[0].weather[0].description);
         forecast_weather_image.setImageDrawable(UIUtils.getImageTypeGrey(cityForecast.forecasts[0].weather[0].main));
-        rv_forecast.setAdapter(new ForecastsAdapter(UIUtils.distinctByDate(cityForecast.forecasts)));
-        rv_forecast.setVisibility(View.VISIBLE);
+
+        Forecast[] forecasts =  UIUtils.distinctByDate(cityForecast.forecasts);
+        for (Forecast forecast: forecasts) {
+
+            LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View forecastItemView = inflater.inflate(R.layout.card_forecast_item, null);
+
+            TextView forecast_weather_day = (TextView)forecastItemView.findViewById(R.id.forecast_weather_day);
+            TextView forecast_weather_value = (TextView)forecastItemView.findViewById(R.id.forecast_weather_value);
+            ImageView forecast_weather_image = (ImageView) forecastItemView.findViewById(R.id.forecast_weather_image);
+
+            forecast_weather_day.setText(DateHelper.getAbbrDay(forecast.dt));
+            forecast_weather_value.setText(String.valueOf(Math.round(forecast.main.temp)));
+            forecast_weather_image.setImageDrawable(UIUtils.getImageTypeWhite(forecast.weather[0].main));
+
+            forecast_list.addView(forecastItemView);
+        }
+
     }
 
 

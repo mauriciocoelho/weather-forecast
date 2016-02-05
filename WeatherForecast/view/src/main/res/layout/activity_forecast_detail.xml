@@ -17,21 +17,29 @@
 
         <include android:id="@+id/card_city" layout="@layout/card_forecast"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_forecast"
-            android:layout_below="@id/card_city"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:background="@color/indigo_400"
+            android:layout_height="120dp"
+            android:layout_below="@id/card_city"
+            android:background="@drawable/card_blue_shadow"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:scrollbars="horizontal"
-            android:orientation="horizontal"
-            app:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/card_forecast_item"
-            android:visibility="gone"/>
+            >
+
+            <LinearLayout
+                android:id="@+id/forecast_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                >
+            </LinearLayout>
+
+
+        </RelativeLayout>
 
         <ProgressBar
             android:id="@+id/loader"

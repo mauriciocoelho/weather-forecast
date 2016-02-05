@@ -61,8 +61,9 @@ public final class UIUtils {
                 firstDate = date;
             }
         }
-        distinctForecast.toArray(forecasts);
-        return forecasts;
+        Forecast[] newForecast = new Forecast[distinctForecast.size()];
+        distinctForecast.toArray(newForecast);
+        return newForecast;
     }
 
 }

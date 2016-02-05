@@ -45,7 +45,7 @@ public final class DateHelper {
             case Calendar.SATURDAY:
                 return SAT;
             default:
-                return "";
+                return SUN;
         }
     }
 

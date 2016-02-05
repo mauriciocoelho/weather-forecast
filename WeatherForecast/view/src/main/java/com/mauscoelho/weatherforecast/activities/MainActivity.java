@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
     private void bindView(CityForecast[] cityForecasts) {
         if(cityForecasts != null){
             rv_forecast.setAdapter(new MainAdapter(cityForecasts, activity));
-            loader.setVisibility(View.GONE);
         }
+        loader.setVisibility(View.GONE);
     }
 
     private void injectView() {
