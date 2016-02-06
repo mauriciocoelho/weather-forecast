@@ -36,9 +36,9 @@ public class InternalStorageService {
     }
 
     public void saveCityForecast(CityForecast cityForecast) {
-        if (cityForecast != null) {
-            List<CityForecast> citiesForecasts = new ArrayList<>();
-            checksWhetherCities(citiesForecasts, cityForecast);
+        CityForecast[] savedCities = getCities();
+        if (!verifyIfContainsCity(cityForecast, savedCities)) {
+            List<CityForecast> citiesForecasts = checksWhetherCities(savedCities, cityForecast);
             CityForecast[] cityArray = buildArray(citiesForecasts);
             saveCitiesForecast(cityArray);
         }
@@ -50,14 +50,26 @@ public class InternalStorageService {
         return cityArray;
     }
 
-    private void checksWhetherCities(List<CityForecast> citiesForecasts, CityForecast cityForecast) {
+    private List<CityForecast> checksWhetherCities(CityForecast[] savedCities, CityForecast cityForecast) {
+        List<CityForecast> newCitiesForecasts = new ArrayList<>();
         if (containsCities()) {
-            CityForecast[] savedCities = getCities();
             for (CityForecast item : savedCities) {
-                citiesForecasts.add(item);
+                newCitiesForecasts.add(item);
             }
         }
-        citiesForecasts.add(cityForecast);
+        newCitiesForecasts.add(cityForecast);
+        return newCitiesForecasts;
+    }
+
+    private boolean verifyIfContainsCity(CityForecast cityForecast, CityForecast[] savedCities) {
+        if(savedCities == null)
+            return false;
+
+        for (CityForecast item : savedCities) {
+            if (item.city.name.contains(cityForecast.city.name))
+                return true;
+        }
+        return false;
     }
 
     public void saveCitiesForecast(CityForecast[] citiesForecast) {
@@ -105,7 +117,7 @@ public class InternalStorageService {
         if (Setting.edited | Setting.firstAccess | citiesForecastCache == null) {
             Setting.edited = false;
             Setting.firstAccess = false;
-            citiesForecastCache =  getCitiesFromJson();
+            citiesForecastCache = getCitiesFromJson();
         }
         return citiesForecastCache;
     }
