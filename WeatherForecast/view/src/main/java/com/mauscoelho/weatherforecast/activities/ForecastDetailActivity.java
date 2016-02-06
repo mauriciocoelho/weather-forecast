@@ -48,6 +48,7 @@ public class ForecastDetailActivity extends AppCompatActivity {
     @Inject
     OpenWeatherMapController openWeatherMapController;
     private Activity activity = this;
+    private CityForecast cityForecast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class ForecastDetailActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final CityForecast cityForecast = openWeatherMapController.getCity(cityName);
+                cityForecast = openWeatherMapController.getCity(cityName);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -109,6 +110,12 @@ public class ForecastDetailActivity extends AppCompatActivity {
 
     @OnClick(R.id.toolbar_back)
     public void finishActivity(ImageView toolbar_back) {
+        finish();
+    }
+
+    @OnClick(R.id.toolbar_remove)
+    public void remove(ImageView toolbar_remove){
+        openWeatherMapController.remove(cityForecast);
         finish();
     }
 
