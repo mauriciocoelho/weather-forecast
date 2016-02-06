@@ -4,9 +4,11 @@ weather forecast with request cache
 ### Primeiros passos
 - Clone o repositório
 - Abra com o Android Studio
-- Execute o branch `master` usando um emulador com API >= 22
+- Execute o branch `master` usando um emulador com API >= 16
 
 ### Dispositivos testados
+- Google Nexus S - 4.1.1 - API 16 - 480x800
+- Google Nexus 4 - 4.1.1 - API 16 - 768x1280
 - Google Nexus 4 - 5.1.0 - API 22 - 768x1280
 - Google Nexus 5 - 6.0.0 - API 23 - 1080x1920
 

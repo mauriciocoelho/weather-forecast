@@ -2,6 +2,7 @@ package com.mauscoelho.weatherforecast.utils;
 
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 
@@ -21,34 +22,42 @@ public final class UIUtils {
     public static final String TYPE_SNOW = "Snow";
 
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static Drawable getImageTypeGrey(String type) {
+
+    public static Drawable getImageTypeGrey(String type, Context context) {
         switch (type){
             case TYPE_RAIN:
-                return App.getsInstance().getDrawable(R.mipmap.ic_weather_rain);
+                return getDrawable(R.mipmap.ic_weather_rain, context);
             case TYPE_CLOUDS:
-                return App.getsInstance().getDrawable(R.mipmap.ic_weather_cloudy);
+                return getDrawable(R.mipmap.ic_weather_cloudy, context);
             case TYPE_CLEAR:
-                return App.getsInstance().getDrawable(R.mipmap.ic_weather_sunny);
+                return getDrawable(R.mipmap.ic_weather_sunny, context);
             case TYPE_SNOW:
-                return App.getsInstance().getDrawable(R.mipmap.ic_weather_snow);
+                return getDrawable(R.mipmap.ic_weather_snow, context);
         }
-        return App.getsInstance().getDrawable(R.mipmap.ic_weather_sunny);
+        return getDrawable(R.mipmap.ic_weather_sunny, context);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static Drawable getImageTypeWhite(String type) {
+    private static Drawable getDrawable(int id, Context context){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return App.getsInstance().getDrawable(id);
+        } else {
+            return context.getResources().getDrawable(id);
+        }
+    }
+
+
+    public static Drawable getImageTypeWhite(String type, Context context) {
         switch (type){
             case TYPE_RAIN:
-                return App.getsInstance().getDrawable(R.mipmap.ic_weather_rain_white);
+                return getDrawable(R.mipmap.ic_weather_rain_white,context);
             case TYPE_CLOUDS:
-                return App.getsInstance().getDrawable(R.mipmap.ic_weather_cloudy_white);
+                return getDrawable(R.mipmap.ic_weather_cloudy_white,context);
             case TYPE_CLEAR:
-                return App.getsInstance().getDrawable(R.mipmap.ic_weather_sunny_white);
+                return getDrawable(R.mipmap.ic_weather_sunny_white,context);
             case TYPE_SNOW:
-                return App.getsInstance().getDrawable(R.mipmap.ic_weather_snow_white);
+                return getDrawable(R.mipmap.ic_weather_snow_white,context);
         }
-        return App.getsInstance().getDrawable(R.mipmap.ic_weather_sunny);
+        return getDrawable(R.mipmap.ic_weather_sunny_white,context);
     }
 
     public static Forecast[] distinctByDate(Forecast[] forecasts) {
