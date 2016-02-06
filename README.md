@@ -25,7 +25,7 @@ https://39b1ecbd71094f0d357a4edd31ceec8f76219303.googledrive.com/host/0B-Vxv0Qpz
 
 ### Screenshots
 
-![alt tag](https://39b1ecbd71094f0d357a4edd31ceec8f76219303.googledrive.com/host/0B-Vxv0Qpz2dqWTVXdVNpbllrakE/Screenshot_20160205-155731.png)![alt tag](https://39b1ecbd71094f0d357a4edd31ceec8f76219303.googledrive.com/host/0B-Vxv0Qpz2dqWTVXdVNpbllrakE/Screenshot_20160205-174057.png)![alt tag](https://39b1ecbd71094f0d357a4edd31ceec8f76219303.googledrive.com/host/0B-Vxv0Qpz2dqWTVXdVNpbllrakE/Screenshot_20160205-155720.png)
+![alt tag](https://39b1ecbd71094f0d357a4edd31ceec8f76219303.googledrive.com/host/0B-Vxv0Qpz2dqWTVXdVNpbllrakE/Screenshot_20160205-155731.png)![alt tag](https://39b1ecbd71094f0d357a4edd31ceec8f76219303.googledrive.com/host/0B-Vxv0Qpz2dqWTVXdVNpbllrakE/Screenshot-detail.png)![alt tag](https://39b1ecbd71094f0d357a4edd31ceec8f76219303.googledrive.com/host/0B-Vxv0Qpz2dqWTVXdVNpbllrakE/Screenshot_20160205-155720.png)
 
 
 
