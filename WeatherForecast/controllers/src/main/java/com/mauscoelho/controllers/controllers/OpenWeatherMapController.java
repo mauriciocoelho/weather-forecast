@@ -11,6 +11,7 @@ public class OpenWeatherMapController {
 
     private OpenWeatherMapService openWeatherMapService;
     private InternalStorageService internalStorageService;
+    private boolean inUpdate = false;
 
     @Inject
     public OpenWeatherMapController(OpenWeatherMapService openWeatherMapService, InternalStorageService internalStorageService) {
@@ -18,11 +19,11 @@ public class OpenWeatherMapController {
         this.internalStorageService = internalStorageService;
     }
 
-    public void saveCity(CityForecast cityForecast){
+    public void saveCity(CityForecast cityForecast) {
         internalStorageService.saveCityForecast(cityForecast);
     }
 
-    public void getForecastByCityName(final IAction<CityForecast> callback, String cityName){
+    public void getForecastByCityName(final IAction<CityForecast> callback, String cityName) {
         openWeatherMapService.getForecastByCityName(new IAction<CityForecast>() {
             @Override
             public void OnCompleted(CityForecast cityForecast) {
@@ -38,39 +39,50 @@ public class OpenWeatherMapController {
 
     public CityForecast[] getCities() {
         CityForecast[] cityForecasts = internalStorageService.getCities();
-        if(cityForecasts != null)
+        if (cityForecasts != null & !inUpdate) {
+            inUpdate = true;
             updateData(cityForecasts);
+        }
+
 
         return cityForecasts;
     }
 
-    public CityForecast getCity(String name){
+    public CityForecast getCity(String name) {
         return internalStorageService.getCity(name);
     }
 
-    private void updateData(final CityForecast[] cityForecasts) {
+    public void updateData(final CityForecast[] cityForecasts) {
+        for (int i = 0; i < cityForecasts.length; i++) {
+            searchData(cityForecasts[i], i, cityForecasts.length);
+        }
+
+    }
+
+    private void searchData(final CityForecast cityForecast, final int position, final int lastPosition) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < cityForecasts.length; i++) {
-                    searchData(cityForecasts[i], i);
-                }
+                openWeatherMapService.getForecastByCityName(new IAction<CityForecast>() {
+                    @Override
+                    public void OnCompleted(CityForecast response) {
+                        internalStorageService.updateCityForecast(response, position);
+                        verifyUpdate(position, lastPosition);
+                    }
+
+                    @Override
+                    public void OnError(CityForecast response) {
+                        verifyUpdate(position, lastPosition);
+                    }
+                }, cityForecast.city.name);
 
             }
         }).start();
     }
 
-    private void searchData(CityForecast cityForecast, final int position) {
-        openWeatherMapService.getForecastByCityName(new IAction<CityForecast>() {
-            @Override
-            public void OnCompleted(CityForecast response) {
-                internalStorageService.updateCityForecast(response, position);
-            }
-            @Override
-            public void OnError(CityForecast response) {
-
-            }
-        }, cityForecast.city.name);
+    private void verifyUpdate(int position, int lastPosition) {
+        if (position == lastPosition)
+            inUpdate = false;
     }
 
 }
