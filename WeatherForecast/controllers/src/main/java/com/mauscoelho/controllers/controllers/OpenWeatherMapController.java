@@ -53,30 +53,31 @@ public class OpenWeatherMapController {
     }
 
     public void updateData(final CityForecast[] cityForecasts) {
+        for (int i = 0; i < cityForecasts.length; i++) {
+            searchData(cityForecasts[i], i, cityForecasts.length);
+        }
+
+    }
+
+    private void searchData(final CityForecast cityForecast, final int position, final int lastPosition) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < cityForecasts.length; i++) {
-                    searchData(cityForecasts[i], i, cityForecasts.length);
-                }
+                openWeatherMapService.getForecastByCityName(new IAction<CityForecast>() {
+                    @Override
+                    public void OnCompleted(CityForecast response) {
+                        internalStorageService.updateCityForecast(response, position);
+                        verifyUpdate(position, lastPosition);
+                    }
+
+                    @Override
+                    public void OnError(CityForecast response) {
+                        verifyUpdate(position, lastPosition);
+                    }
+                }, cityForecast.city.name);
 
             }
         }).start();
-    }
-
-    private void searchData(CityForecast cityForecast, final int position, final int lastPosition) {
-        openWeatherMapService.getForecastByCityName(new IAction<CityForecast>() {
-            @Override
-            public void OnCompleted(CityForecast response) {
-                internalStorageService.updateCityForecast(response, position);
-                verifyUpdate(position, lastPosition);
-            }
-
-            @Override
-            public void OnError(CityForecast response) {
-                verifyUpdate(position, lastPosition);
-            }
-        }, cityForecast.city.name);
     }
 
     private void verifyUpdate(int position, int lastPosition) {
