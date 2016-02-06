@@ -6,6 +6,8 @@ import com.mauscoelho.controllers.parsers.OpenWeatherMapParser;
 import com.mauscoelho.controllers.services.InternalStorageService;
 import com.mauscoelho.controllers.services.OpenWeatherMapService;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -27,6 +29,7 @@ public class OpenWeatherMapModule {
         return  new OpenWeatherMapService( provideOpenWeatherMapParser());
     }
 
+    @Singleton
     @Provides
     InternalStorageService privdeInternalStorageService(){
         return new InternalStorageService(provideGson());

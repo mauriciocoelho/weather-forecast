@@ -44,12 +44,15 @@ public class OpenWeatherMapController {
             updateData(cityForecasts);
         }
 
-
         return cityForecasts;
     }
 
     public CityForecast getCity(String name) {
         return internalStorageService.getCity(name);
+    }
+
+    public void remove(CityForecast cityForecast){
+        internalStorageService.remove(cityForecast);
     }
 
     public void updateData(final CityForecast[] cityForecasts) {

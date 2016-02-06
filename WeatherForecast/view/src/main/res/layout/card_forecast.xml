@@ -26,7 +26,7 @@
             android:id="@+id/forecast_city_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lages"
+            android:text="@string/loading"
             android:textSize="30dp"
             android:textColor="@color/grey_600"
             android:layout_marginBottom="4dp"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/grey_600"
-            android:text="Chuva"
+            android:text="@string/loading"
             android:textSize="18dp"
             android:paddingBottom="10dp"
             />
@@ -48,7 +48,7 @@
             android:layout_below="@+id/forecast_weather_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_weather_rain"
+            android:src="@mipmap/ic_weather_sunny"
             android:paddingLeft="8dp"
             />
 
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/grey_600"
-                android:text="18"
+                android:text="0"
                 android:textSize="48dp"
                 />
 
