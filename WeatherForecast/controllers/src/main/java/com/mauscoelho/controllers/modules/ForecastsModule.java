@@ -1,9 +1,9 @@
 package com.mauscoelho.controllers.modules;
 
 import com.google.gson.Gson;
-import com.mauscoelho.controllers.controllers.OpenWeatherMapController;
+import com.mauscoelho.controllers.controllers.ForecastController;
 import com.mauscoelho.controllers.parsers.OpenWeatherMapParser;
-import com.mauscoelho.controllers.services.InternalStorageService;
+import com.mauscoelho.controllers.services.ForecastsService;
 import com.mauscoelho.controllers.services.OpenWeatherMapService;
 
 import javax.inject.Singleton;
@@ -12,7 +12,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class OpenWeatherMapModule {
+public class ForecastsModule {
 
     @Provides
     Gson provideGson(){
@@ -31,12 +31,12 @@ public class OpenWeatherMapModule {
 
     @Singleton
     @Provides
-    InternalStorageService privdeInternalStorageService(){
-        return new InternalStorageService(provideGson());
+    ForecastsService provideForecastsService(){
+        return new ForecastsService(provideGson());
     }
 
     @Provides
-    OpenWeatherMapController provideOpenWeatherMapController(){
-        return  new OpenWeatherMapController( provideOpenWeatherMapService(), privdeInternalStorageService());
+    ForecastController provideForecastController(){
+        return  new ForecastController( provideOpenWeatherMapService(), provideForecastsService());
     }
 }

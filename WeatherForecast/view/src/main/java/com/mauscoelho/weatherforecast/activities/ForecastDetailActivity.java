@@ -13,13 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.mauscoelho.controllers.controllers.OpenWeatherMapController;
+import com.mauscoelho.controllers.controllers.ForecastController;
 import com.mauscoelho.controllers.settings.Extras;
 import com.mauscoelho.data.CityForecast;
 import com.mauscoelho.data.Forecast;
 import com.mauscoelho.weatherforecast.R;
-import com.mauscoelho.weatherforecast.interfaces.DaggerIOpenWeatherMapComponent;
-import com.mauscoelho.weatherforecast.interfaces.IOpenWeatherMapComponent;
+import com.mauscoelho.weatherforecast.interfaces.DaggerIForecastsComponent;
+import com.mauscoelho.weatherforecast.interfaces.IForecastsComponent;
 import com.mauscoelho.weatherforecast.utils.DateHelper;
 import com.mauscoelho.weatherforecast.utils.UIUtils;
 
@@ -46,7 +46,7 @@ public class ForecastDetailActivity extends AppCompatActivity {
     @InjectView(R.id.forecast_list)
     LinearLayout forecast_list;
     @Inject
-    OpenWeatherMapController openWeatherMapController;
+    ForecastController forecastController;
     private Activity activity = this;
     private CityForecast cityForecast;
 
@@ -57,6 +57,17 @@ public class ForecastDetailActivity extends AppCompatActivity {
         injectDependencies();
         injectView();
         buildView();
+    }
+
+    @OnClick(R.id.toolbar_back)
+    public void finishActivity(ImageView toolbar_back) {
+        finish();
+    }
+
+    @OnClick(R.id.toolbar_remove)
+    public void remove(ImageView toolbar_remove){
+        forecastController.remove(cityForecast);
+        finish();
     }
 
     private void buildView() {
@@ -71,7 +82,7 @@ public class ForecastDetailActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                cityForecast = openWeatherMapController.getCity(cityName);
+                cityForecast = forecastController.getCity(cityName);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -108,23 +119,12 @@ public class ForecastDetailActivity extends AppCompatActivity {
         return forecastItemView;
     }
 
-    @OnClick(R.id.toolbar_back)
-    public void finishActivity(ImageView toolbar_back) {
-        finish();
-    }
-
-    @OnClick(R.id.toolbar_remove)
-    public void remove(ImageView toolbar_remove){
-        openWeatherMapController.remove(cityForecast);
-        finish();
-    }
-
     private void injectView() {
         ButterKnife.inject(this);
     }
 
     private void injectDependencies() {
-        IOpenWeatherMapComponent openWeatherMapComponent = DaggerIOpenWeatherMapComponent.create();
+        IForecastsComponent openWeatherMapComponent = DaggerIForecastsComponent.create();
         openWeatherMapComponent.injectForecastDetailActivity(this);
     }
 

@@ -10,12 +10,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.mauscoelho.controllers.controllers.OpenWeatherMapController;
+import com.mauscoelho.controllers.controllers.ForecastController;
 import com.mauscoelho.data.CityForecast;
-import com.mauscoelho.weatherforecast.interfaces.DaggerIOpenWeatherMapComponent;
-import com.mauscoelho.weatherforecast.interfaces.IOpenWeatherMapComponent;
+import com.mauscoelho.weatherforecast.interfaces.DaggerIForecastsComponent;
+import com.mauscoelho.weatherforecast.interfaces.IForecastsComponent;
 import com.mauscoelho.weatherforecast.R;
 import com.mauscoelho.weatherforecast.adapters.MainAdapter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import butterknife.ButterKnife;
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     @InjectView(R.id.rv_forecast)
     RecyclerView rv_forecast;
     @Inject
-    OpenWeatherMapController openWeatherMapController;
+    ForecastController forecastController;
     private Activity activity = this;
 
     @Override
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.toolbar_add)
     public void startAddOrEditActivity(ImageView toolbar_add){
-        startActivity(new Intent(this, AddActivity.class));
+        startActivity(new Intent(this, AddForecastActivity.class));
     }
 
     @Override
@@ -58,11 +60,11 @@ public class MainActivity extends AppCompatActivity {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                final CityForecast[] cityForecasts = openWeatherMapController.getCities();
+                final List<CityForecast> citiesForecast = forecastController.getCities();
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        bindView(cityForecasts);
+                        bindView(citiesForecast);
                     }
                 });
             }
@@ -70,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
         new Thread(runnable).start();
     }
 
-    private void bindView(CityForecast[] cityForecasts) {
-        if(cityForecasts != null){
-            rv_forecast.setAdapter(new MainAdapter(cityForecasts, activity));
+    private void bindView(List<CityForecast> citiesForecast) {
+        if(citiesForecast != null){
+            rv_forecast.setAdapter(new MainAdapter(citiesForecast, activity));
         }
         loader.setVisibility(View.GONE);
     }
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void injectDependencies() {
-        IOpenWeatherMapComponent openWeatherMapComponent = DaggerIOpenWeatherMapComponent.create();
+        IForecastsComponent openWeatherMapComponent = DaggerIForecastsComponent.create();
         openWeatherMapComponent.injectMainActivity(this);
     }
 }
