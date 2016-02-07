@@ -21,6 +21,16 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         volley();
+        ollie();
+    }
+
+    private void ollie() {
+        Ollie.with(this)
+                .setName(Setting.DB_NAME)
+                .setVersion(Setting.DB_VERSION)
+                .setLogLevel(Ollie.LogLevel.FULL)
+                .setCacheSize(Setting.CACHE_SIZE)
+                .init();
     }
 
     private void volley() {
