@@ -2,13 +2,16 @@ package com.mauscoelho.controllers.services;
 
 
 import android.support.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.mauscoelho.controllers.settings.App;
 import com.mauscoelho.controllers.settings.Setting;
 import com.mauscoelho.data.CityForecast;
 import com.mauscoelho.data.ollie.ForecastOllie;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.inject.Inject;
 
 import ollie.Ollie;
@@ -29,11 +32,13 @@ public class ForecastsService {
                 .init();
     }
 
-    public void save(CityForecast cityForecast){
-        ForecastOllie forecast = new ForecastOllie();
-        forecast.city = cityForecast.city.name;
-        forecast.json = gson.toJson(cityForecast);
-        forecast.save();
+    public void save(CityForecast cityForecast) {
+        if (getByName(cityForecast.city.name) == null) {
+            ForecastOllie forecast = new ForecastOllie();
+            forecast.city = cityForecast.city.name;
+            forecast.json = gson.toJson(cityForecast);
+            forecast.save();
+        }
     }
 
     public List<CityForecast> getCities() {
@@ -44,7 +49,7 @@ public class ForecastsService {
     @NonNull
     private List<CityForecast> convertToCityForecast(List<ForecastOllie> forecastOllieList) {
         List<CityForecast> citiesForecast = new ArrayList<>();
-        for (ForecastOllie forecastOllie: forecastOllieList) {
+        for (ForecastOllie forecastOllie : forecastOllieList) {
             CityForecast cityForecast = gson.fromJson(forecastOllie.json, CityForecast.class);
             citiesForecast.add(cityForecast);
         }
@@ -57,8 +62,8 @@ public class ForecastsService {
         foreccastOllie.save();
     }
 
-    private ForecastOllie getByName(String city){
-        return Select.from(ForecastOllie.class).where("city=?",city).fetchSingle();
+    private ForecastOllie getByName(String city) {
+        return Select.from(ForecastOllie.class).where("city=?", city).fetchSingle();
     }
 
     public CityForecast getCity(String city) {
