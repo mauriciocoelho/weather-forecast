@@ -20,6 +20,7 @@ import com.mauscoelho.weatherforecast.adapters.MainAdapter;
 import java.util.List;
 
 import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     ForecastController forecastController;
     private Activity activity = this;
+    private MainAdapter mainAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +47,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.toolbar_add)
-    public void startAddOrEditActivity(ImageView toolbar_add){
+    public void startAddOrEditActivity(ImageView toolbar_add) {
         startActivity(new Intent(this, AddForecastActivity.class));
+    }
+
+    @OnClick(R.id.toolbar_sort)
+    public void sort(ImageView toolbar_sort) {
+        sortData();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         buildForecasts();
+    }
+
+    private void sortData() {
+        if (mainAdapter != null)
+            mainAdapter.sort();
     }
 
     private void buildForecasts() {
@@ -73,8 +85,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void bindView(List<CityForecast> citiesForecast) {
-        if(citiesForecast != null){
-            rv_forecast.setAdapter(new MainAdapter(citiesForecast, activity));
+        if (citiesForecast != null) {
+            mainAdapter = new MainAdapter(citiesForecast, activity);
+            rv_forecast.setAdapter(mainAdapter);
         }
         loader.setVisibility(View.GONE);
     }
