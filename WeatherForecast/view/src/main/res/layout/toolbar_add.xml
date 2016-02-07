@@ -30,5 +30,17 @@
         android:padding="9dp"
         android:src="@mipmap/ic_plus" />
 
+    <ImageView
+        android:id="@+id/toolbar_sort"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/btn_ripple_action"
+        android:clickable="true"
+        android:padding="9dp"
+        android:src="@mipmap/ic_sort" />
+
 
 </android.support.v7.widget.Toolbar>
