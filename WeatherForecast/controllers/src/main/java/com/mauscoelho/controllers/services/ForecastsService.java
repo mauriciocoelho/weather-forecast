@@ -4,17 +4,12 @@ package com.mauscoelho.controllers.services;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.mauscoelho.controllers.settings.App;
-import com.mauscoelho.controllers.settings.Setting;
 import com.mauscoelho.data.CityForecast;
 import com.mauscoelho.data.ollie.ForecastOllie;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.inject.Inject;
-
-import ollie.Ollie;
 import ollie.query.Select;
 
 public class ForecastsService {
@@ -24,15 +19,12 @@ public class ForecastsService {
     @Inject
     public ForecastsService(Gson gson) {
         this.gson = gson;
-        Ollie.with(App.getsInstance())
-                .setName(Setting.DB_NAME)
-                .setVersion(Setting.DB_VERSION)
-                .setLogLevel(Ollie.LogLevel.FULL)
-                .setCacheSize(Setting.CACHE_SIZE)
-                .init();
     }
 
     public void save(CityForecast cityForecast) {
+        if(cityForecast == null)
+            throw new NullPointerException("cityForest is null");
+
         if (getByName(cityForecast.city.name) == null) {
             ForecastOllie forecast = new ForecastOllie();
             forecast.city = cityForecast.city.name;
@@ -67,6 +59,9 @@ public class ForecastsService {
     }
 
     public CityForecast getCity(String city) {
+        if(city.isEmpty())
+            throw new NullPointerException("param is empty");
+
         ForecastOllie forecastOllie = getByName(city);
         return gson.fromJson(forecastOllie.json, CityForecast.class);
     }
