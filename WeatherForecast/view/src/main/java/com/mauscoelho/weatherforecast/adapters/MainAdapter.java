@@ -11,18 +11,26 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mauscoelho.controllers.settings.Extras;
+import com.mauscoelho.controllers.settings.Setting;
 import com.mauscoelho.data.CityForecast;
 import com.mauscoelho.weatherforecast.R;
 import com.mauscoelho.weatherforecast.utils.UIUtils;
 import com.mauscoelho.weatherforecast.activities.ForecastDetailActivity;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private final int SORT_NAME = 0;
+    private final int SORT_TEMP_MAX = 1;
+    private final int SORT_TEMP_MIN = 2;
+    private int SORT = 0;
     private List<CityForecast> forecasts;
     private Activity activity;
 
@@ -77,10 +85,65 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
+    public void sort() {
+        if (SORT == SORT_TEMP_MIN)
+            SORT = SORT_NAME;
+        else
+            SORT = SORT + 1;
+
+        sortData();
+        notifyDataSetChanged();
+    }
+
+    private void sortData() {
+        switch (SORT){
+            case SORT_NAME:
+                sortByName();
+                break;
+            case SORT_TEMP_MAX:
+                sortByTempMax();
+                break;
+            case SORT_TEMP_MIN:
+                sortByTempMin();
+                break;
+            default:
+                sortByName();
+        }
+    }
+
+    private void sortByTempMin() {
+        Collections.sort(forecasts, new Comparator<CityForecast>() {
+            @Override
+            public int compare(CityForecast lhs, CityForecast rhs) {
+                Integer temp = Math.round(lhs.forecasts[0].main.temp);
+                Integer temp1 = Math.round(rhs.forecasts[0].main.temp);
+                return temp1.compareTo(temp);
+            }
+        });
+    }
+
+    private void sortByTempMax() {
+        Collections.sort(forecasts, new Comparator<CityForecast>() {
+            @Override
+            public int compare(CityForecast lhs, CityForecast rhs) {
+                Integer temp = Math.round(lhs.forecasts[0].main.temp);
+                Integer temp1 = Math.round(rhs.forecasts[0].main.temp);
+                return temp.compareTo(temp1);
+            }
+        });
+    }
+
+    private void sortByName() {
+        Collections.sort(forecasts, new Comparator<CityForecast>() {
+            @Override
+            public int compare(CityForecast lhs, CityForecast rhs) {
+                return lhs.city.name.compareTo(rhs.city.name);
+            }
+        });
+    }
 
 
-
-    public static class MainViewHolder extends RecyclerView.ViewHolder{
+    public static class MainViewHolder extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.forecast_city_name)
         TextView forecast_city_name;

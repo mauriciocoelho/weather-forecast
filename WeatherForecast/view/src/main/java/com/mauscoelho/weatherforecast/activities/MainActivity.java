@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     ForecastController forecastController;
     private Activity activity = this;
+    private MainAdapter mainAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +50,20 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, AddForecastActivity.class));
     }
 
+    @OnClick(R.id.toolbar_sort)
+    public void sort(ImageView toolbar_sort){
+        sortData();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         buildForecasts();
+    }
+
+    private void sortData() {
+        if(mainAdapter != null)
+        mainAdapter.sort();
     }
 
     private void buildForecasts() {
@@ -74,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void bindView(List<CityForecast> citiesForecast) {
         if(citiesForecast != null){
-            rv_forecast.setAdapter(new MainAdapter(citiesForecast, activity));
+            mainAdapter = new MainAdapter(citiesForecast, activity);
+            rv_forecast.setAdapter(mainAdapter);
         }
         loader.setVisibility(View.GONE);
     }
