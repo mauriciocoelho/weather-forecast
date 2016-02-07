@@ -25,21 +25,24 @@ public class OpenWeatherMapParser {
 
 
     public CityForecast convertToCityForecast(String json){
-        CityForecast cityForecast = null;
         try {
             JSONObject jsonObject = new JSONObject(json);
             JSONObject jsonCity = jsonObject.getJSONObject(CITY);
             JSONArray jsonArray = jsonObject.getJSONArray(LIST);
             City city =  gson.fromJson(jsonCity.toString(), City.class);
             Forecast[] forecasts = gson.fromJson(jsonArray.toString(), Forecast[].class);
-            cityForecast = new CityForecast();
-            cityForecast.city = city;
-            cityForecast.forecasts = forecasts;
+            return createCityForecast(city, forecasts);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return null;
+    }
 
+    private CityForecast createCityForecast(City city, Forecast[] forecasts) {
+        CityForecast cityForecast = new CityForecast();
+        cityForecast.city = city;
+        cityForecast.forecasts = forecasts;
         return cityForecast;
     }
 

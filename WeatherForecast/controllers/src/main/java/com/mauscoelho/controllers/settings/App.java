@@ -10,6 +10,8 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 
+import ollie.Ollie;
+
 public class App extends Application {
 
     private static App sInstance;
@@ -18,10 +20,10 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Volley();
+        volley();
     }
 
-    private void Volley() {
+    private void volley() {
         Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
         Network network = new BasicNetwork(new HurlStack());
         mRequestQueue = new RequestQueue(cache, network);

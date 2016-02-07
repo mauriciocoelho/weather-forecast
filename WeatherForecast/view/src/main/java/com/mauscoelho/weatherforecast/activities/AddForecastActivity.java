@@ -11,11 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.mauscoelho.controllers.controllers.OpenWeatherMapController;
+import com.mauscoelho.controllers.controllers.ForecastController;
 import com.mauscoelho.controllers.interfaces.IAction;
 import com.mauscoelho.data.CityForecast;
-import com.mauscoelho.weatherforecast.interfaces.DaggerIOpenWeatherMapComponent;
-import com.mauscoelho.weatherforecast.interfaces.IOpenWeatherMapComponent;
+import com.mauscoelho.weatherforecast.interfaces.DaggerIForecastsComponent;
+import com.mauscoelho.weatherforecast.interfaces.IForecastsComponent;
 import com.mauscoelho.weatherforecast.R;
 
 import javax.inject.Inject;
@@ -25,7 +25,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 
-public class AddActivity extends AppCompatActivity {
+public class AddForecastActivity extends AppCompatActivity {
 
     private CityForecast cityForecast;
     @InjectView(R.id.toolbar_text)
@@ -41,7 +41,7 @@ public class AddActivity extends AppCompatActivity {
     @InjectView(R.id.loader)
     ProgressBar loader;
     @Inject
-    OpenWeatherMapController openWeatherMapController;
+    ForecastController forecastController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class AddActivity extends AppCompatActivity {
 
     @OnClick(R.id.card_city_item)
     public void saveCity(LinearLayout card_city_item){
-        openWeatherMapController.saveCity(cityForecast);
+        forecastController.saveCity(cityForecast);
         Snackbar.make(coordinatorLayout,R.string.saved, Snackbar.LENGTH_LONG).show();
     }
 
@@ -72,7 +72,7 @@ public class AddActivity extends AppCompatActivity {
         loader.setVisibility(View.VISIBLE);
         String citySearch = toolbar_text.getText().toString();
         if (!citySearch.isEmpty())
-            openWeatherMapController.getForecastByCityName(new IAction<CityForecast>() {
+            forecastController.getForecastByCityName(new IAction<CityForecast>() {
                 @Override
                 public void OnCompleted(CityForecast cityForecast) {
                     resolveView(cityForecast);
@@ -106,7 +106,7 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private void injectDependencies() {
-        IOpenWeatherMapComponent openWeatherMapComponent = DaggerIOpenWeatherMapComponent.create();
+        IForecastsComponent openWeatherMapComponent = DaggerIForecastsComponent.create();
         openWeatherMapComponent.injectAddActivity(this);
     }
 

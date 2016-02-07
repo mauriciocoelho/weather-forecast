@@ -1,26 +1,28 @@
 package com.mauscoelho.controllers.controllers;
 
 import com.mauscoelho.controllers.interfaces.IAction;
-import com.mauscoelho.controllers.services.InternalStorageService;
+import com.mauscoelho.controllers.services.ForecastsService;
 import com.mauscoelho.controllers.services.OpenWeatherMapService;
 import com.mauscoelho.data.CityForecast;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
-public class OpenWeatherMapController {
+public class ForecastController {
 
     private OpenWeatherMapService openWeatherMapService;
-    private InternalStorageService internalStorageService;
+    private ForecastsService forecastsService;
     private boolean inUpdate = false;
 
     @Inject
-    public OpenWeatherMapController(OpenWeatherMapService openWeatherMapService, InternalStorageService internalStorageService) {
+    public ForecastController(OpenWeatherMapService openWeatherMapService, ForecastsService forecastsService) {
         this.openWeatherMapService = openWeatherMapService;
-        this.internalStorageService = internalStorageService;
+        this.forecastsService = forecastsService;
     }
 
     public void saveCity(CityForecast cityForecast) {
-        internalStorageService.saveCityForecast(cityForecast);
+        forecastsService.save(cityForecast);
     }
 
     public void getForecastByCityName(final IAction<CityForecast> callback, String cityName) {
@@ -37,27 +39,22 @@ public class OpenWeatherMapController {
         }, cityName);
     }
 
-    public CityForecast[] getCities() {
-        CityForecast[] cityForecasts = internalStorageService.getCities();
-        if (cityForecasts != null & !inUpdate) {
+    public List<CityForecast> getCities() {
+        List<CityForecast> citiesForecast = forecastsService.getCities();
+        if (citiesForecast != null & !inUpdate) {
             inUpdate = true;
-            updateData(cityForecasts);
+            updateData(citiesForecast);
         }
-
-        return cityForecasts;
-    }
-
-    public CityForecast getCity(String name) {
-        return internalStorageService.getCity(name);
+        return citiesForecast;
     }
 
     public void remove(CityForecast cityForecast){
-        internalStorageService.remove(cityForecast);
+        forecastsService.remove(cityForecast);
     }
 
-    public void updateData(final CityForecast[] cityForecasts) {
-        for (int i = 0; i < cityForecasts.length; i++) {
-            searchData(cityForecasts[i], i, cityForecasts.length);
+    public void updateData(final List<CityForecast> cityForecasts) {
+        for (int i = 0; i < cityForecasts.size(); i++) {
+            searchData(cityForecasts.get(i), i, cityForecasts.size());
         }
 
     }
@@ -69,13 +66,13 @@ public class OpenWeatherMapController {
                 openWeatherMapService.getForecastByCityName(new IAction<CityForecast>() {
                     @Override
                     public void OnCompleted(CityForecast response) {
-                        internalStorageService.updateCityForecast(response, position);
-                        verifyUpdate(position, lastPosition);
+                        forecastsService.update(response, cityForecast.city.name);
+                        verifyInUpdate(position, lastPosition);
                     }
 
                     @Override
                     public void OnError(CityForecast response) {
-                        verifyUpdate(position, lastPosition);
+                        verifyInUpdate(position, lastPosition);
                     }
                 }, cityForecast.city.name);
 
@@ -83,9 +80,12 @@ public class OpenWeatherMapController {
         }).start();
     }
 
-    private void verifyUpdate(int position, int lastPosition) {
+    private void verifyInUpdate(int position, int lastPosition) {
         if (position == lastPosition)
             inUpdate = false;
     }
 
+    public CityForecast getCity(String cityName) {
+        return forecastsService.getCity(cityName);
+    }
 }

@@ -16,15 +16,17 @@ import com.mauscoelho.weatherforecast.R;
 import com.mauscoelho.weatherforecast.utils.UIUtils;
 import com.mauscoelho.weatherforecast.activities.ForecastDetailActivity;
 
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private CityForecast[] forecasts;
+    private List<CityForecast> forecasts;
     private Activity activity;
 
-    public MainAdapter(CityForecast[] forecasts, Activity activity) {
+    public MainAdapter(List<CityForecast> forecasts, Activity activity) {
         this.forecasts = forecasts;
         this.activity = activity;
     }
@@ -36,12 +38,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return forecasts.length;
+        return forecasts.size();
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        CityForecast forecast = forecasts[position];
+        CityForecast forecast = forecasts.get(position);
         int viewType = getItemViewType(position);
         switch (viewType) {
             case 0:
