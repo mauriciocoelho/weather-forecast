@@ -2,7 +2,6 @@ package com.mauscoelho.controllers.services;
 
 
 import android.support.annotation.NonNull;
-
 import com.google.gson.Gson;
 import com.mauscoelho.controllers.settings.App;
 import com.mauscoelho.controllers.settings.Setting;
@@ -11,6 +10,7 @@ import com.mauscoelho.data.ollie.ForecastOllie;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
+
 import ollie.Ollie;
 import ollie.query.Select;
 

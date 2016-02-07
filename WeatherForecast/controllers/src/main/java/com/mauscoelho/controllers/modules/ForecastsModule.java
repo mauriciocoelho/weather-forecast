@@ -29,7 +29,6 @@ public class ForecastsModule {
         return  new OpenWeatherMapService( provideOpenWeatherMapParser());
     }
 
-
     @Singleton
     @Provides
     ForecastsService provideForecastsService(){
