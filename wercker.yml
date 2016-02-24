@@ -3,4 +3,5 @@ box: wercker/android
 build:
   # The steps that will be executed on build
   steps:
-  - valery1707/gradle@0.1.9
+  - setup-android-emulator:
+        target: android-18
