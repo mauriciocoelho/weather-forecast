@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Weather Forecast</string>
+    <string name="search">Search</string>
+    <string name="loading">LOADING</string>
+    <string name="name">NAME:</string>
+    <string name="country">COUNTRY:</string>
+    <string name="instructions_to_add">Tap to add</string>
+    <string name="saved">Saved!</string>
+</resources>
