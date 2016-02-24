@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\mauricio.coelho\AndroidStudioProjects\weather-forecast\view\build\intermediates\transforms\instantRunSlicer\debug\jars\1\5\main_slice.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="9c98a9659c7d30c64dfe4e3b4efce6c3f18ee4d0">
+        <dex dex="C:\Users\mauricio.coelho\AndroidStudioProjects\weather-forecast\view\build\intermediates\transforms\dex\debug\folders\1000\5\main_slice_38b1db99ec9267306a43c19db86798d909499c8d\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\mauricio.coelho\AndroidStudioProjects\weather-forecast\view\build\intermediates\transforms\instantRunSlicer\debug\jars\1\1a\dependencies.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="1867c88e2e82e63c4b98f6b6b91e68a96480d237">
+        <dex dex="C:\Users\mauricio.coelho\AndroidStudioProjects\weather-forecast\view\build\intermediates\transforms\dex\debug\folders\1000\1a\dependencies_5c9605fd0c37edb38e6ffa93210314b2b61c0ee4\classes.dex" />
+    </item>
+
+</items>

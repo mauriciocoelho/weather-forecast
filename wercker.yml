@@ -12,3 +12,15 @@ build:
           echo $ANDROID_BUILD_TOOLS
           echo $ANDROID_UPDATE_FILTER
           echo $ANDROID_NDK_HOME    
+    # A step that executes `gradle build` command
+    - script:
+        name: run gradle
+        code: |
+          ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR assembleDebug
+  after-steps:
+    - script:
+        name: inspect build result
+        code: |
+          ls -la ./view/build/outputs/apk
+          cp ./view/build/outputs/apk/*.apk $WERCKER_REPORT_ARTIFACTS_DIR
+          rm -f $WERCKER_REPORT_ARTIFACTS_DIR/*-unaligned.apk
