@@ -1,3 +1,5 @@
+![alt tag](https://travis-ci.org/mauriciocoelho/weather-forecast.svg?branch=master)
+
 # weather-forecast
 weather forecast with request cache
 
