@@ -3,30 +3,4 @@ box: wercker/android
 build:
   # The steps that will be executed on build
   steps:
-    - android-sdk-update:
-        filter: "sys-img-armeabi-v7a-android-19"
-    # - script:
-    #     name: show environment
-    #     code: |
-    #       export
-    #       cd /home/ubuntu/android-sdk-linux
-    #       expect -f $WERCKER_SOURCE_DIR/android-update.exp "sysimg-18"
-
-    #       android list targets
-    - setup-android-emulator:
-        target: android-19
-    # - script:
-    #     name: setup emulator
-    #     code: |
-    #       export WERCKER_SETUP_ANDROID_EMULATOR_TARGET_NAME=wercker
-    #       export WERCKER_SETUP_ANDROID_EMULATOR_TARGET=android-18
-    #       export WERCKER_SETUP_ANDROID_EMULATOR_ABI=armeabi-v7a
-    #       echo no | android create avd --force -n $WERCKER_SETUP_ANDROID_EMULATOR_TARGET_NAME -t $WERCKER_SETUP_ANDROID_EMULATOR_TARGET --abi $WERCKER_SETUP_ANDROID_EMULATOR_ABI
-    #       emulator -avd $WERCKER_SETUP_ANDROID_EMULATOR_TARGET_NAME -no-skin -no-audio -no-window &
-    #       echo "wait for emulator"
-    #       $WERCKER_SOURCE_DIR/wait_for_emulator.sh
-
-    - script:
-        name: run gradle connectedInstrumentTest
-        code: |
-          gradle cIT
+  - valery1707/gradle@0.1.9
