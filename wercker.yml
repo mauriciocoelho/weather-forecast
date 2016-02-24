@@ -1,25 +1,32 @@
 box: wercker/android
 # Build definition
 build:
-    # The steps that will be executed on build
-    steps:
-      - script:
-          name: show base information
-          code: |
-            gradle -v
-            echo $ANDROID_HOME
-            echo $ANDROID_BUILD_TOOLS
-            echo $ANDROID_UPDATE_FILTER
-      # A step that executes gradle build command
-      - script:
-          name: run gradle
-          code: |
-            gradle --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR build
-  after-steps:
-    # Show the build results
+  # The steps that will be executed on build
+  steps:
+    - android-sdk-update:
+        filter: "sys-img-armeabi-v7a-android-19"
+    # - script:
+    #     name: show environment
+    #     code: |
+    #       export
+    #       cd /home/ubuntu/android-sdk-linux
+    #       expect -f $WERCKER_SOURCE_DIR/android-update.exp "sysimg-18"
+
+    #       android list targets
+    - setup-android-emulator:
+        target: android-19
+    # - script:
+    #     name: setup emulator
+    #     code: |
+    #       export WERCKER_SETUP_ANDROID_EMULATOR_TARGET_NAME=wercker
+    #       export WERCKER_SETUP_ANDROID_EMULATOR_TARGET=android-18
+    #       export WERCKER_SETUP_ANDROID_EMULATOR_ABI=armeabi-v7a
+    #       echo no | android create avd --force -n $WERCKER_SETUP_ANDROID_EMULATOR_TARGET_NAME -t $WERCKER_SETUP_ANDROID_EMULATOR_TARGET --abi $WERCKER_SETUP_ANDROID_EMULATOR_ABI
+    #       emulator -avd $WERCKER_SETUP_ANDROID_EMULATOR_TARGET_NAME -no-skin -no-audio -no-window &
+    #       echo "wait for emulator"
+    #       $WERCKER_SOURCE_DIR/wait_for_emulator.sh
+
     - script:
-        name: inspect build result
-        on: success
+        name: run gradle connectedInstrumentTest
         code: |
-          ls -la WeatherForecast/build/apk/
-          cp WeatherForecast/build/apk/*.apk $WERCKER_REPORT_ARTIFACTS_DIR
+          gradle cIT
